@@ -18,7 +18,7 @@ type ApiResponse = { page: number, per_page: number, total: number, total_pages:
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class ApiService {
 
   httpClient = inject(HttpClient);
 
