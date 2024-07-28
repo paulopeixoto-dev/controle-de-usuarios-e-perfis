@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-auth',
@@ -13,13 +14,27 @@ export class AuthPage implements OnInit {
     password: new FormControl('', [Validators.required]),
   })
 
+  utilsSvc = inject(UtilsService)
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  submit() {
-    console.log(this.form.value);
+  async submit() {
+    if (this.form.valid) {
+      // const loading = await this.utilsSvc.loading();
+      // await loading.present();
+
+      // this.utilsSvc.presentToast({
+      //   message: 'teste',
+      //   duration: 2500,
+      //   color: 'primary',
+      //   position: 'middle',
+      //   icon: 'alert-circle-outline'
+      // });
+
+    }
   }
 
 }
