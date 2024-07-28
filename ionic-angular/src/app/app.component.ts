@@ -15,6 +15,7 @@ export class AppComponent {
     { title: 'Trash', url: '/folder/trash', icon: 'trash' },
     { title: 'Spam', url: '/folder/spam', icon: 'warning' },
   ];
+  public hideMenuUrls = ['/auth', '/auth/sign-up'];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
    isHideMenu: boolean = false;
@@ -26,7 +27,7 @@ export class AppComponent {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      if (event.urlAfterRedirects == '/auth') this.isHideMenu = true;
+      if (this.hideMenuUrls.includes(event.urlAfterRedirects)) this.isHideMenu = true;
     });
 
   }

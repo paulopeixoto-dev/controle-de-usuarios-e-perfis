@@ -3,6 +3,8 @@
   <div class="d-flex-center">
     <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
       <app-logo></app-logo>
+
+      <!-- ============= Usuário =========== -->
       <app-custom-input
         [control]="form.controls.user"
         icon="person-outline"
@@ -13,6 +15,7 @@
         <div *ngIf="form.controls.user.errors?.['required']">Campo Obrigatório!</div>
       </div>
 
+      <!-- ============= Senha =========== -->
       <app-custom-input
         [control]="form.controls.password"
         icon="lock-closed-outline"
