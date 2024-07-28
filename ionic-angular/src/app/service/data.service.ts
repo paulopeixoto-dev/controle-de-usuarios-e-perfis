@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UtilsService } from 'src/app/services/utils.service';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,25 +12,12 @@ export class ApiService {
 
   httpClient = inject(HttpClient);
 
-  login(data): Observable<any> {
-
-    let info = {
-      "user":       data.value.user,
-      "password":   data.value.password
-  }
-    return this.httpClient.post(`${environment.baseUrl}/auth/login`, info)
+  login(user: User): Observable<any> {
+    return this.httpClient.post(`${environment.baseUrl}/auth/login`, user)
   }
 
-  register(data): Observable<any> {
-
-    let info = {
-        "name":       data.value.name,
-        "user":       data.value.user,
-        "password":   data.value.password
-    }
-
-    return this.httpClient.post(`${environment.baseUrl}/auth/register`, info)
-
+  register(user: User): Observable<any> {
+    return this.httpClient.post(`${environment.baseUrl}/auth/register`, user)
   }
 
 }
