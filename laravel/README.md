@@ -6,6 +6,8 @@
 
 ## Como rodar o projeto
 
+    
+
     Executar as migration e os seeds
         
         php artisan migrate:fresh --seed

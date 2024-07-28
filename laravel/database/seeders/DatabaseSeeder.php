@@ -143,13 +143,13 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin',
                 'user' => 'gs3',
                 "permgroup_id"     => 1,
-                'password' => Hash::make('veryhappy', ['rounds' => 12]),
+                'password' => Hash::make('gs3', ['rounds' => 12]),
             ],
             [
                 'name' => 'Usuário Comum',
                 'user' => 'usuario_comum',
                 "permgroup_id"     => 2,
-                'password' => Hash::make('veryhappy', ['rounds' => 12]),
+                'password' => Hash::make('usuario_comum', ['rounds' => 12]),
             ]
         ]);
 

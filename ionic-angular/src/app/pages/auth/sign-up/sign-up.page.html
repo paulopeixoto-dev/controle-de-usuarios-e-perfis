@@ -41,7 +41,7 @@
           <div *ngIf="form.controls.password.errors?.['required']">Campo Obrigatório!</div>
         </div>
 
-        <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid" routerLink="home">
+        <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid">
           Cadastrar
           <ion-icon slot="end" name="person-add-outline"></ion-icon>
         </ion-button>
