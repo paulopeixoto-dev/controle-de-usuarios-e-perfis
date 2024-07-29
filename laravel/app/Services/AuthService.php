@@ -6,18 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Queries\UsersQuery;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
 
-    protected $usersQuery;
 
-    public function __construct(UsersQuery $usersQuery)
-    {
-        $this->usersQuery = $usersQuery;
-    }
+    public function __construct(){}
 
     public function login($request)
     {

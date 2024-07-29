@@ -1,13 +1,33 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Home"></app-header>
+<ion-content>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <ion-item-sliding class="product-item" *ngFor="let u of users">
+      <ion-item>
+        <ion-label>
+          <div class="name"> {{ u.name }} </div>
+        </ion-label>
+      </ion-item>
+
+      <!-- ============= Opções =========== -->
+      <ion-item-options>
+        <!-- ============= Editar Usuário =========== -->
+        <ion-item-option (click)="addUpdateUser(u)">
+          <ion-icon class="option-btn" name="create-outline"></ion-icon>
+        </ion-item-option>
+        <!-- ============= Excluir Usuário =========== -->
+        <ion-item-option color="danger" (click)="deleteUser(u)">
+          <ion-icon class="option-btn" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- ============= Novo Usuário =========== -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addUpdateUser()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

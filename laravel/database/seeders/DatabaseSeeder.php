@@ -38,6 +38,14 @@ class DatabaseSeeder extends Seeder
 
         DB::table("permitems")->insert(
             [
+                "name"             => "Deletar Usuário",
+                "slug"             => "deletar_usuario",
+                "group"            => "usuario"
+            ]
+        );
+
+        DB::table("permitems")->insert(
+            [
                 "name"             => "Editar Outro Usuário",
                 "slug"             => "editar_outro_usuario",
                 "group"            => "usuario"
@@ -123,6 +131,14 @@ class DatabaseSeeder extends Seeder
             [
                 "permgroup_id"     => 1,
                 "permitem_id"      => 6
+
+            ]
+        );
+
+        DB::table("permgroup_permitem")->insert(
+            [
+                "permgroup_id"     => 1,
+                "permitem_id"      => 7
 
             ]
         );

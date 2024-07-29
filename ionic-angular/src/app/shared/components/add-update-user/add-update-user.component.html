@@ -1,0 +1,48 @@
+<app-header [isModal]="true" [title]="user ? 'Editar Usuário' : 'Adicionar Usuário'"></app-header>
+<ion-content>
+  <form [formGroup]="form" class="ion-padding ion-text-center" (ngSubmit)="submit()" (keypress.enter)="submit()">
+
+    <!-- ============= Nome =========== -->
+    <app-custom-input
+      [control]="form.controls.name"
+      icon="person-outline"
+      placeholder="Digite seu Nome"
+      type="text"
+      label="Nome"
+    ></app-custom-input>
+    <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+      <div *ngIf="form.controls.name.errors?.['required']">Campo Obrigatório!</div>
+      <div *ngIf="form.controls.name.errors?.['minlength']">O nome deve conter pelo menos 4 caracteres.</div>
+    </div>
+
+    <!-- ============= Usuário =========== -->
+    <app-custom-input
+      [control]="form.controls.user"
+      icon="person-outline"
+      placeholder="Digite seu Usuário"
+      type="text"
+      label="Usuário"
+    ></app-custom-input>
+    <div class="validators" *ngIf="form.controls.user.errors && form.controls.user.touched">
+      <div *ngIf="form.controls.user.errors?.['required']">Campo Obrigatório!</div>
+    </div>
+
+    <!-- ============= Senha =========== -->
+    <app-custom-input
+      [control]="form.controls.password"
+      icon="lock-closed-outline"
+      placeholder="Digite sua Senha"
+      type="password"
+      label="Senha"
+    ></app-custom-input>
+    <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+      <div *ngIf="form.controls.password.errors?.['required']">Campo Obrigatório!</div>
+    </div>
+
+    <ion-button mode="ios" class="ion-margin" type="submit" [disabled]="form.invalid">
+      {{ user ? 'Editar Usuário' : 'Adicionar Usuário' }}
+      <ion-icon slot="end" name="person-add-outline"></ion-icon>
+    </ion-button>
+
+  </form>
+</ion-content>

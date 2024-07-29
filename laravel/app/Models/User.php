@@ -50,5 +50,17 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Permgroup::class, 'permgroup_id', 'id');
+    }
+
+    public function hasPermission($permission)
+    {
+        return $this->group()->whereHas('items', function ($query) use ($permission) {
+            $query->where('slug', $permission);
+        })->exists();
+    }
+
 
 }

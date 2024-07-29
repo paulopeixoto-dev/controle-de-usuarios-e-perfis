@@ -8,14 +8,14 @@ use Illuminate\Http\Response;
 
 class UsersQuery
 {
-    public function buscaInformacoes($email)
+    public function buscaInformacoes($user)
     {
         // 1º Passo -> Busca id do usuário
-        $idUsuario = User::where('email', $email)
+        $idUsuario = User::where('user', $user)
             ->value('id');
 
         // 2º Passo -> Query responsável por buscar dados do usuário
-        $query = UserResource::collection(User::where('id', $idUsuario)->get());
+        $query = User::where('id', $idUsuario)->get();
 
         // 3º Passo -> retorna resposta
         return $query;

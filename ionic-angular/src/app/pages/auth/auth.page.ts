@@ -32,12 +32,17 @@ export class AuthPage implements OnInit {
 
       this.apiService.login(this.form.value as User).pipe( finalize(() => { loading.dismiss(); })).subscribe(
         (response) => {
+          // Mostra mensagem de sucesso
           this.utilsSvc.presentToast({ message: response.message, duration: 2500, color: 'primary', position: 'middle', icon: 'alert-circle-outline' });
+          // Salva usuário em local storage e para as futuras requisições usar o interceptor
           this.utilsSvc.saveInLocalStorage('user', {"usuario" : response.usuario, "token": response.token});
+          // Redirecionar para a home
           this.utilsSvc.routerLink('/home');
+          // Resetar o formulario
           this.form.reset();
         },
         (error) => {
+          // Mostrar mensagem de erro
           this.utilsSvc.presentToast({ message: error.error.message, duration: 2500, color: 'danger', position: 'middle', icon: 'alert-circle-outline' });
         }
       );

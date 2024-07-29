@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 @Component({
@@ -20,16 +20,21 @@ export class AppComponent {
 
    isHideMenu: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    // ================ OCULTAR MENU ====================
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      if (this.hideMenuUrls.includes(event.urlAfterRedirects)) this.isHideMenu = true;
+      // Verifica se a URL da navegação está nas URLs para ocultar o menu
+      if (this.hideMenuUrls.includes(event.urlAfterRedirects)) {
+        this.isHideMenu = true;
+      } else {
+        this.isHideMenu = false;
+      }
+      // Força a detecção de mudanças
+      // Para corrigir o bug, mudava para a tela home e o menu não aparecia
+      this.cdRef.detectChanges();
     });
-
   }
-
 }
