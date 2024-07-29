@@ -1,51 +1,41 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
-import { User } from 'src/app/models/user.model';
+import { Permission } from 'src/app/models/permission.model';
 import { ApiService } from 'src/app/service/data.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
-  selector: 'app-add-update-user',
-  templateUrl: './add-update-user.component.html',
-  styleUrls: ['./add-update-user.component.scss'],
+  selector: 'app-add-update-permissions',
+  templateUrl: './add-update-permissions.component.html',
+  styleUrls: ['./add-update-permissions.component.scss'],
 })
-export class AddUpdateUserComponent  implements OnInit {
+export class AddUpdatePermissionsComponent  implements OnInit {
 
-  utilsSvc = inject(UtilsService)
-
-
-  @Input() user: User;
-
-  selectedOption: number = 1;
-  options: { id: number, name: string }[] = [];
-  perm_editar_perfil: Boolean = this.utilsSvc.hasAnyPermission(['editar_perfil']);
-
+@Input() permission: Permission;
 
 
   form = new FormGroup({
-    user: new FormControl('', [Validators.required]),
-    password: new FormControl(''),
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    perfil: new FormControl(''),
+    criar_usuario: new FormControl(false),
+    deletar_usuario: new FormControl(false),
+    editar_outro_usuario: new FormControl(false),
+    editar_proprio_usuario: new FormControl(false),
+    visualizar_todos_usuario: new FormControl(false),
+    criar_perfil: new FormControl(false),
+    editar_perfil: new FormControl(false),
+    visualizar_permissoes : new FormControl(false),
   })
 
+  utilsSvc = inject(UtilsService)
 
-  constructor(private apiService: ApiService) {
-
-    this.getPermissions();
-
-  }
-
-  onOptionSelected(event: any) {
-    console.log('Selected Option:', this.selectedOption);
-  }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-    if(this.user) this.form.patchValue(this.user);
+    if(this.permission) this.form.patchValue(this.permission);
 
     // ===========  Torna Campo obrigatório se criar um novo usuário ====================
-    if (!this.user) {
+    if (!this.permission) {
       const passwordControl = this.form.get('password');
       passwordControl.setValidators([Validators.required]);
     }
@@ -53,17 +43,17 @@ export class AddUpdateUserComponent  implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      if(this.user) this.updateUser();
-      else this.createUser();
+      if(this.permission) this.updatePermission();
+      else this.createPermission();
     }
   }
 
   // =============  Criar usuário ============
-  async createUser() {
+  async createPermission() {
     const loading = await this.utilsSvc.loading();
     await loading.present();
 
-    this.apiService.register(this.form.value as User).pipe( finalize(() => { loading.dismiss(); })).subscribe(
+    this.apiService.createPermission(this.form.value as Permission).pipe( finalize(() => { loading.dismiss(); })).subscribe(
       (response) => {
         this.utilsSvc.presentToast({ message: response.message, duration: 2500, color: 'primary', position: 'middle', icon: 'alert-circle-outline' });
         this.utilsSvc.dismissModal({ success: true });
@@ -76,32 +66,19 @@ export class AddUpdateUserComponent  implements OnInit {
   }
 
   // =============  Alterar usuário ============
-  async updateUser() {
+  async updatePermission() {
     const loading = await this.utilsSvc.loading();
     await loading.present();
 
-    this.apiService.updateUser(this.form.value as User, this.user.id).pipe( finalize(() => { loading.dismiss(); })).subscribe(
+    console.log('permissions', this.form.value)
+
+    this.apiService.updatePermission(this.form.value as Permission, this.permission.id).pipe( finalize(() => { loading.dismiss(); })).subscribe(
       (response) => {
         this.utilsSvc.presentToast({ message: response.message, duration: 2500, color: 'primary', position: 'middle', icon: 'alert-circle-outline' });
         this.utilsSvc.dismissModal({ success: true });
         this.form.reset();
       },
       (error) => {
-        this.utilsSvc.presentToast({ message: error.error.message, duration: 2500, color: 'danger', position: 'middle', icon: 'alert-circle-outline' });
-      }
-    );
-  }
-
-  async getPermissions() {
-    const loading = await this.utilsSvc.loading();
-    await loading.present();
-
-    this.apiService.getPermissions().pipe( finalize(() => { loading.dismiss(); })).subscribe(
-      (response) => {
-        this.options = response.data;
-      },
-      (error) => {
-        // Mostrar mensagem de erro
         this.utilsSvc.presentToast({ message: error.error.message, duration: 2500, color: 'danger', position: 'middle', icon: 'alert-circle-outline' });
       }
     );

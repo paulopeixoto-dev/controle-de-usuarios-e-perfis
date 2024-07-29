@@ -1,19 +1,19 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { UtilsService } from './services/utils.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  utilsSvc = inject(UtilsService);
+
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'Usuários', url: '/home', icon: 'home', hide: false },
+    { title: 'Permissões', url: '/permissions', icon: 'archive', hide: !this.utilsSvc.hasAnyPermission(['visualizar_permissoes'])},
+    { title: 'Sair', url: '/auth', icon: 'exit', hide: false },
   ];
   public hideMenuUrls = ['/auth', '/auth/sign-up'];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
@@ -32,6 +32,12 @@ export class AppComponent {
       } else {
         this.isHideMenu = false;
       }
+
+      this.appPages = [
+        { title: 'Usuários', url: '/home', icon: 'home', hide: false },
+        { title: 'Permissões', url: '/permissions', icon: 'archive', hide: !this.utilsSvc.hasAnyPermission(['visualizar_permissoes'])},
+        { title: 'Sair', url: '/auth', icon: 'exit', hide: false },
+      ];
       // Força a detecção de mudanças
       // Para corrigir o bug, mudava para a tela home e o menu não aparecia
       this.cdRef.detectChanges();

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -10,10 +11,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-
-
-    public function __construct(){}
-
     public function login($request)
     {
         // 1º Passo -> Pegando credenciais
@@ -26,7 +23,7 @@ class AuthService
         if ($token) {
             return [
                 'message' => 'Autenticação realizada com sucesso!',
-                'usuario' => auth()->user(),
+                'usuario' => new UserResource(auth()->user()),
                 'token' => $token,
                 'status' => Response::HTTP_OK
             ];
@@ -42,6 +39,9 @@ class AuthService
         $dados = $request->all();
         $dados['password'] = Hash::make($dados['password'], ['rounds' => 12]);
         $dados['permgroup_id'] = 2; //Por padrão o usuário já começa nesse grupo
+        if(isset($dados['perfil'])){
+            $dados['permgroup_id'] = $dados['perfil'];
+        }
         $newUser = User::create($dados);
 
         // 2° Passo -> Efetuar o login com o usuário cadastrado

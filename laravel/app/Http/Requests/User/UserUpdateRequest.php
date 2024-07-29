@@ -17,11 +17,13 @@ class UserUpdateRequest extends FormRequest
 
     public function rules(): array
     {
-
+        // Pegando o id do usuário passando como parametro na rota
         $id = $this->route('id');
 
-        // ESSA REGRA PERMITE O USUARIO MUDAR PROPRIO USUARIO, SE ELE ENVIAR O MESMO NAO VAI TER PROBLEMA
-        // SE ENVIAR UM QUE JA EXISTE VAI BARRAR, E SE ENVIAR UM QUE NÃO FOI USADO NAO VAI TER PROBLEMA
+        // Esta regra permite que o usuário atualize o próprio nome de usuário (user).
+        // Se o mesmo nome de usuário for enviado, não haverá problemas.
+        // Se um nome de usuário já existente for enviado, a validação falhará.
+        // Se um nome de usuário novo (não utilizado) for enviado, não haverá problemas.
 
         return [
             'user' => [

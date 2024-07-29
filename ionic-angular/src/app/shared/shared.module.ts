@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AddUpdateUserComponent } from './components/add-update-user/add-update-user.component';
+import { AddUpdatePermissionsComponent } from './components/add-update-permissions/add-update-permissions.component';
 
 
 
@@ -15,14 +16,16 @@ import { AddUpdateUserComponent } from './components/add-update-user/add-update-
     HeaderComponent,
     CustomInputComponent,
     LogoComponent,
-    AddUpdateUserComponent
+    AddUpdateUserComponent,
+    AddUpdatePermissionsComponent
   ],
   exports: [
     HeaderComponent,
     CustomInputComponent,
     LogoComponent,
     ReactiveFormsModule,
-    AddUpdateUserComponent
+    AddUpdateUserComponent,
+    AddUpdatePermissionsComponent
   ],
   imports: [
     CommonModule,

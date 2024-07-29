@@ -12,7 +12,7 @@
       <!-- ============= Opções =========== -->
       <ion-item-options>
         <!-- ============= Editar Usuário =========== -->
-        <ion-item-option (click)="addUpdateUser(u)">
+        <ion-item-option *ngIf="perm_editar_usuario" (click)="addUpdateUser(u)">
           <ion-icon class="option-btn" name="create-outline"></ion-icon>
         </ion-item-option>
         <!-- ============= Excluir Usuário =========== -->
@@ -25,7 +25,7 @@
   </ion-list>
 
   <!-- ============= Novo Usuário =========== -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab *ngIf="perm_cria_usuario" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addUpdateUser()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

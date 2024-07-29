@@ -1,5 +1,5 @@
 <ion-content>
-<app-header title="Login"></app-header>
+<app-header [hideExit]="true" title="Login"></app-header>
   <div class="d-flex-center">
     <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
       <app-logo></app-logo>

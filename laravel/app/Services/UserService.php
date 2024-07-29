@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -10,17 +11,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-
-    public function __construct() {}
-
-    public function getAll()
+   public function getAll()
     {
 
         // ============= Buscar todos os usuários ===========
-        $usuarios = User::where(function($query) {
+        $usuarios = UserResource::collection(User::where(function($query) {
                 // ============= Se usuário não tem permissão, só traz o usuário dele  ===========
                 if(!auth()->user()->hasPermission('visualizar_todos_usuario')) $query->where('id', auth()->user()->id);
-            })->get();
+            })->get());
 
         return [
             'data' => $usuarios,
@@ -49,6 +47,8 @@ class UserService
 
         // Se passou a senha ela é alterada
         if($request->password) $usuario->password = Hash::make($request->password, ['rounds' => 12]);
+
+        $usuario->permgroup_id = $request->perfil;
 
         // Salvando as informações
         $usuario->save();

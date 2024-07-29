@@ -24,7 +24,7 @@ class AuthController extends Controller
 
     public function register(AuthRegisterRequest $request)
     {
-        $res = $this->authService->register($request); // Autenticação
+        $res = $this->authService->register($request); // Cadastro
         return response()->json($res, $res['status']); // Retornando resposta
     }
     public function validateToken()

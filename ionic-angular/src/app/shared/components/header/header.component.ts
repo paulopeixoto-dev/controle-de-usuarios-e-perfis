@@ -10,6 +10,7 @@ export class HeaderComponent  implements OnInit {
 
   @Input() title!: string;
   @Input() backButton!: string;
+  @Input() hideExit: boolean = false;
   @Input() isModal!: boolean;
 
   utilsSvc = inject(UtilsService);
@@ -18,6 +19,11 @@ export class HeaderComponent  implements OnInit {
 
   dismissModal() {
     this.utilsSvc.dismissModal();
+  }
+
+  exit() {
+    this.utilsSvc.saveInLocalStorage('user', {});
+    this.utilsSvc.routerLink('/auth');
   }
 
 }

@@ -24,7 +24,7 @@ class Permgroup extends Model
     }
 
     public function users() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id', 'permgroup_id');
     }
 
 }

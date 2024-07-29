@@ -51,4 +51,12 @@ export class UtilsService {
     return this.modalCtrl.dismiss(data);
   }
 
+  hasAnyPermission(requiredPermissions: string[]): boolean {
+
+    const user = JSON.parse(this.getInLocalStorage('user'));
+
+    return user.usuario.permissoes.some(permissao => requiredPermissions.includes(permissao.slug));
+
+  }
+
 }

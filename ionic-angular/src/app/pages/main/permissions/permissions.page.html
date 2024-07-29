@@ -1,0 +1,30 @@
+<app-header title="Permissões"></app-header>
+<ion-content>
+
+  <ion-list>
+    <ion-item-sliding class="product-item" *ngFor="let p of permissions">
+      <ion-item>
+        <ion-label>
+          <div class="name"> {{ p.name }} </div>
+        </ion-label>
+      </ion-item>
+
+      <!-- ============= Opções =========== -->
+      <ion-item-options>
+        <!-- ============= Editar Permissão =========== -->
+        <ion-item-option (click)="addUpdatePermission(p)">
+          <ion-icon class="option-btn" name="create-outline"></ion-icon>
+        </ion-item-option>
+
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- ============= Nova Permissão =========== -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addUpdatePermission()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

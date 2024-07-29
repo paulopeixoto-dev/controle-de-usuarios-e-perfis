@@ -2,50 +2,47 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ApiService } from 'src/app/service/data.service';
 import { finalize } from 'rxjs';
 import { UtilsService } from 'src/app/services/utils.service';
-import { AddUpdateUserComponent } from 'src/app/shared/components/add-update-user/add-update-user.component';
-import { User } from 'src/app/models/user.model';
+import { Permission } from 'src/app/models/permission.model';
+import { AddUpdatePermissionsComponent } from 'src/app/shared/components/add-update-permissions/add-update-permissions.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  selector: 'app-permissions',
+  templateUrl: './permissions.page.html',
+  styleUrls: ['./permissions.page.scss'],
 })
-export class HomePage implements OnInit {
+export class PermissionsPage implements OnInit {
 
   utilsSvc = inject(UtilsService);
 
 
   constructor(private apiService: ApiService) {
-    this.getUsers();
+    this.getAllPermissions();
   }
 
-  users: User[] = [];
-  perm_cria_usuario: Boolean = this.utilsSvc.hasAnyPermission(['criar_usuario']);
-  perm_editar_usuario: Boolean = this.utilsSvc.hasAnyPermission(['editar_proprio_usuario', 'editar_outro_usuario']);
-
+  permissions: Permission[] = [];
 
   ngOnInit() {
   }
 
-  async addUpdateUser(user?: User) {
-    console.log(user)
+  async addUpdatePermission(permission?: Permission) {
     let success = await this.utilsSvc.presentModal({
-      component: AddUpdateUserComponent,
+      component: AddUpdatePermissionsComponent,
       cssClass: 'add-update-modal',
-      componentProps: { user }
+      componentProps: { permission }
     })
 
-    if(success) this.getUsers();
+    if(success) this.getAllPermissions();
+
   }
 
-  async deleteUser(user?: User) {
+  async deletePermission(permission?: Permission) {
     const loading = await this.utilsSvc.loading();
     await loading.present();
 
-    this.apiService.deleteUser(user.id).pipe( finalize(() => { loading.dismiss(); })).subscribe(
+    this.apiService.deleteUser(permission.id).pipe( finalize(() => { loading.dismiss(); })).subscribe(
       (response) => {
         this.utilsSvc.presentToast({ message: response.message, duration: 2500, color: 'primary', position: 'middle', icon: 'alert-circle-outline' });
-        this.getUsers();
+        this.getAllPermissions();
       },
       (error) => {
         // Mostrar mensagem de erro
@@ -56,13 +53,13 @@ export class HomePage implements OnInit {
 
 
 
-  async getUsers() {
+  async getAllPermissions() {
     const loading = await this.utilsSvc.loading();
     await loading.present();
 
-    this.apiService.getAllUser().pipe( finalize(() => { loading.dismiss(); })).subscribe(
+    this.apiService.getAllPermissions().pipe( finalize(() => { loading.dismiss(); })).subscribe(
       (response) => {
-        this.users = response.data;
+        this.permissions = response.data;
       },
       (error) => {
         // Mostrar mensagem de erro

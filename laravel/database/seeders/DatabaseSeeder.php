@@ -68,6 +68,15 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+
+        DB::table("permitems")->insert(
+            [
+                "name"             => "Visualizar Perfis",
+                "slug"             => "visualizar_permissoes",
+                "group"            => "perfil"
+            ]
+        );
+
         DB::table("permitems")->insert(
             [
                 "name"             => "Criar Perfil",
@@ -145,8 +154,16 @@ class DatabaseSeeder extends Seeder
 
         DB::table("permgroup_permitem")->insert(
             [
+                "permgroup_id"     => 1,
+                "permitem_id"      => 8
+
+            ]
+        );
+
+        DB::table("permgroup_permitem")->insert(
+            [
                 "permgroup_id"     => 2,
-                "permitem_id"      => 3
+                "permitem_id"      => 4
 
             ]
         );
